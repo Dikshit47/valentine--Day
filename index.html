@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Valentine ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#ff4d6d,#ff8fa3,#ffc2d1);
+  overflow:hidden;
+  color:white;
+  text-align:center;
+}
+
+/* Glass Card */
+.card{
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.15);
+  border-radius:20px;
+  padding:25px;
+  width:90%;
+  max-width:420px;
+  margin:auto;
+  margin-top:12vh;
+  box-shadow:0 8px 30px rgba(0,0,0,0.2);
+  animation:fade 1s;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+input,button{
+  padding:10px;
+  border:none;
+  border-radius:20px;
+  margin-top:10px;
+  width:80%;
+}
+
+button{
+  background:white;
+  color:#ff4d6d;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* Hearts & Petals */
+.float{
+  position:absolute;
+  animation:float 8s linear infinite;
+  font-size:18px;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
+
+/* Big Heart */
+.big-heart{
+  font-size:70px;
+  cursor:pointer;
+  animation:beat 1s infinite;
+}
+
+@keyframes beat{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.2);}
+}
+
+/* Love Letter */
+.letter{
+  font-family:'Dancing Script', cursive;
+  font-size:22px;
+  text-align:left;
+  white-space:pre-line;
+}
+
+/* Gallery */
+.gallery img{
+  width:80px;
+  height:80px;
+  border-radius:10px;
+  margin:5px;
+  object-fit:cover;
+  border:2px solid white;
+}
+</style>
+</head>
+<body>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4b1c0a7c56.mp3">
+</audio>
+
+<div id="app"></div>
+
+<script>
+const app=document.getElementById("app");
+
+/* Floating hearts & petals */
+setInterval(()=>{
+  const el=document.createElement("div");
+  el.className="float";
+  el.style.left=Math.random()*100+"vw";
+  el.innerHTML=Math.random()>0.5?"❤":"🌹";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),8000);
+},500);
+
+/* Step 1 */
+function start(){
+  app.innerHTML=`
+  <div class="card">
+    <h2>💖 Happy Valentine 💖</h2>
+    <p>Enter her name</p>
+    <input id="name" placeholder="Her Name">
+    <br>
+    <button onclick="journey()">Start Love Journey ❤️</button>
+    <br><br>
+    <button onclick="toggleMusic()">🎵 Music</button>
+  </div>`;
+}
+
+/* Music Toggle */
+function toggleMusic(){
+  const music=document.getElementById("music");
+  music.paused?music.play():music.pause();
+}
+
+/* Step 2 */
+function journey(){
+  const name=document.getElementById("name").value;
+  if(!name){alert("Enter name ❤️");return;}
+  localStorage.setItem("loveName",name);
+
+  app.innerHTML=`
+  <div class="card">
+    <h2>Why I Love You, ${name} ❤️</h2>
+    <p>Your smile is my favorite place to live.</p>
+    <button onclick="gallery()">Next →</button>
+  </div>`;
+}
+
+/* Step 3 Gallery */
+function gallery(){
+  app.innerHTML=`
+  <div class="card">
+    <h2>Our Memories 📸</h2>
+    <div class="gallery">
+      <img src="https://picsum.photos/100?1">
+      <img src="https://picsum.photos/100?2">
+      <img src="https://picsum.photos/100?3">
+    </div>
+    <button onclick="unlock()">Unlock My Heart ❤️</button>
+  </div>`;
+}
+
+/* Step 4 Unlock Heart */
+function unlock(){
+  app.innerHTML=`
+  <div class="card">
+    <h2>Tap to Unlock My Heart</h2>
+    <div class="big-heart" onclick="password()">❤️</div>
+  </div>`;
+}
+
+/* Step 5 Secret Page */
+function password(){
+  app.innerHTML=`
+  <div class="card">
+    <h2>Secret Love Page 🔐</h2>
+    <input id="pass" placeholder="Enter secret word">
+    <br>
+    <button onclick="check()">Unlock</button>
+  </div>`;
+}
+
+function check(){
+  const pass=document.getElementById("pass").value.toLowerCase();
+  if(pass==="love"){
+    letter();
+  } else {
+    alert("Wrong word 😜 Try LOVE");
+  }
+}
+
+/* Final Love Letter */
+function letter(){
+  const name=localStorage.getItem("loveName");
+
+  app.innerHTML=`
+  <div class="card letter">
+  Dear ${name},
+
+  You are the reason my heart beats faster,
+  the reason my world feels brighter,
+  and the reason I believe in forever.
+
+  In your arms, I found my home.
+  In your eyes, I found my universe.
+
+  I don’t just love you…
+  I choose you, every single day.
+
+  Happy Valentine’s Day ❤️
+  Forever Yours.
+  </div>`;
+}
+
+start();
+</script>
+
+</body>
+</html>
